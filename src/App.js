@@ -1,25 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+import { Box, ChakraProvider } from "@chakra-ui/react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Upload from "./components/pdf/Upload";
+import Viewer from "./components/pdf/Viewer";
+import Main from "./components/pdf/Main";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ChakraProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          {/* <Route path="/viewer" element={<Viewer />} /> */}
+        </Routes>
+      </Router>
+    </ChakraProvider>
   );
 }
+// ReactDOM.render(<App />, document.getElementById("root"));
 
 export default App;
