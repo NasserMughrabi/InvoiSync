@@ -145,8 +145,13 @@ const Upload = ({ setUploadedFiles, setStep }) => {
   const handleUpload = (e) => {
     const files = e.target.files;
     setUploadedFiles([...files]);
-    for (let file of files) {
-      window.electronAPI.uploadFile(file.path);
+
+    try {
+      for (let file of files) {
+        window.electronAPI.uploadFile(file.path);
+      }
+    } catch (error) {
+      alert(error);
     }
     setStep((step) => step + 1);
   };

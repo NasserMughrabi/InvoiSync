@@ -8,14 +8,15 @@ import {
 import Upload from "./components/pdf/Upload";
 import Viewer from "./components/pdf/Viewer";
 import Main from "./components/pdf/Main";
+import Dash from "./components/dashboard/Dash";
 
 function App() {
   return (
     <ChakraProvider>
+      {/* <Dash /> */}
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
-          {/* <Route path="/viewer" element={<Viewer />} /> */}
         </Routes>
       </Router>
     </ChakraProvider>

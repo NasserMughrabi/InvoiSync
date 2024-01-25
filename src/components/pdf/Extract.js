@@ -59,6 +59,8 @@ const Extract = ({
   };
 
   const handleExtract = async (e) => {
+    window.electronAPI.adobeExtract(uploadedFiles[0].name);
+    return;
     setExtracting(true);
     startProgress();
 
@@ -78,7 +80,11 @@ const Extract = ({
 
         for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
           const page = await pdf.getPage(pageNum);
-          const viewport = page.getViewport({ scale: 2 });
+        //   const textContext = await page.getTextContent();
+        //   for (let context of textContext.items) {
+        //     console.log(context.str);
+        //   }
+          const viewport = page.getViewport({ scale: 4 });
           const canvas = document.createElement("canvas");
           canvas.height = viewport.height;
           canvas.width = viewport.width;
@@ -208,7 +214,7 @@ const Extract = ({
           variant={"outline"}
           colorScheme="gray"
           color={"white"}
-          _hover={{ bgColor: "white", color: colors.violet}}
+          _hover={{ bgColor: "white", color: colors.violet }}
           w={"8rem"}
           position={"absolute"}
           bottom={0}

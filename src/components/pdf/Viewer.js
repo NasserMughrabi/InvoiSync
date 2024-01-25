@@ -48,7 +48,11 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
   const filesOrData = () => {
     if (selectedFile) {
       return (
-        <Data selectedFile={selectedFile} setSelectedFile={setSelectedFile} pdfText={pdfText} />
+        <Data
+          selectedFile={selectedFile}
+          setSelectedFile={setSelectedFile}
+          pdfText={selectedFile ? selectedFile.pdfText : pdfText}
+        />
       );
     } else {
       return (
@@ -118,7 +122,7 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
             bg={"gray.600"}
           >
             <Image
-              src={pdfPages[currentPage]}
+              src={selectedFile ? selectedFile.pdfPages[currentPage] : pdfPages[currentPage]}
               alt={`Page ${currentPage + 1}`}
               fit="contain"
               align="center"
@@ -132,10 +136,20 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
             icon={<FaChevronRight />}
             transform="translateY(-50%)"
             zIndex={2}
-            isDisabled={currentPage === pdfPages.length - 1}
+            isDisabled={
+              currentPage ===
+              (selectedFile
+                ? selectedFile.pdfPages.length - 1
+                : pdfPages.length - 1)
+            }
             onClick={() =>
               setCurrentPage((prevPage) =>
-                Math.min(prevPage + 1, pdfPages.length - 1)
+                Math.min(
+                  prevPage + 1,
+                  selectedFile
+                    ? selectedFile.pdfPages.length - 1
+                    : pdfPages.length - 1
+                )
               )
             }
           />

@@ -1,15 +1,14 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
-const Tesseract = require("tesseract.js");
 const fs = require("fs");
-// import * as pdf from 'pdfjs-dist';
-
+const { adobeExtract } = require("./helpers/adobeHelper"); // Adjust the path as necessary
+const { findBalance, findValNextRow } = require("./helpers/parse"); // Adjust the path as necessary
 
 function createWindow() {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 800,
-    height: 600,
+    width: 1200,
+    height: 800,
     webPreferences: {
       nodeIntegration: true,
       preload: path.join(__dirname, "preload.js"),
@@ -46,9 +45,7 @@ app.on("activate", () => {
   }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.
-
+// This lister recieves a files and upload it to the uploads folder
 ipcMain.handle("upload-file", (event, filePath) => {
   const uploadsDir = path.join(__dirname, "uploads");
   const fileName = path.basename(filePath);
@@ -56,87 +53,34 @@ ipcMain.handle("upload-file", (event, filePath) => {
 
   fs.copyFile(filePath, destPath, (err) => {
     if (err) {
-      console.error("Error saving file:", err);
-      // Send error response back to renderer process
-      //   event.reply("upload-file-response", "error");
-      return;
+      return err;
     }
-    // Send success response back to renderer process
-    // event.reply("upload-file-response", "success");
+    return "Uploaded";
   });
 });
 
-ipcMain.handle("convert-pdf-to-images", async (event, pdfPath) => {
-  // Dynamically import the PDF.js module
-  const pdfjsLib = await import("pdfjs-dist/build/pdf.mjs");
-  pdfjsLib.GlobalWorkerOptions.workerSrc = "pdfjs-dist/build/pdf.worker.mjs";
-
-  // constructing the path
-  pdfPath = path.join(__dirname, "uploads", pdfPath);
-  console.log(pdfPath);
-
-  // Loading the PDF file
-  // const loadingTask = pdfjsLib.PDFDocument.load(fs.readFileSync(pdfPath));
-  const loadingTask = pdfjsLib.getDocument(pdfPath);
-  const pdf = await loadingTask.promise;
-
-  // console.log("pdf", pdf)
-  const numPages = pdf.numPages;
-  const pages = [];
-  const viewports = []
-  for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-    const page = await pdf.getPage(pageNum);
-    const viewport = page.getViewport({ scale: 1.5 });
-    viewports.push(viewport);
-  }
-
-  const pdfInfo = {
-    numPages: numPages,
-    viewports: viewports,
-    // pages: pages,
-  };
-
-  return pdfInfo;
-
-  // const numPages = pdf.numPages;
-
-  // const images = [];
-
-  // for (let pageNum = 1; pageNum <= numPages; pageNum++) {
-  //   const page = await pdf.getPage(pageNum);
-  //   const viewport = page.getViewport({ scale: 1.5 });
-
-  //   // Prepare a canvas for rendering.
-  //   const canvas = document.createElement("canvas");
-  //   canvas.width = viewport.width;
-  //   canvas.height = viewport.height;
-
-  //   const ctx = canvas.getContext("2d");
-
-  //   const renderContext = {
-  //     canvasContext: ctx,
-  //     viewport: viewport,
-  //   };
-
-  //   await page.render(renderContext).promise;
-
-  //   // Convert canvas to an image format (e.g., PNG)
-  //   images.push(canvas.toDataURL("image/png"));
-  // }
-
-  // return images;
+// This lister makes use of adobe's api to extract data and then manually parse the data
+ipcMain.handle("adobe-extract", async (event, fileName) => {
+  // Adobe Extract API
+  const data = await adobeExtract(fileName);
+  console.log(data)
+  
+  // const date = findValNextRow(data, "date");
+  // const invoice = findValNextRow(data, "invoice");
+  // const balance = findBalance(data);
+  // console.log("Date: ", date);
+  // console.log("Invoice Number: ", invoice);
+  // console.log("Due Balance: ", balance);
 });
 
-ipcMain.handle("perform-ocr", async (event, imagePath) => {
-  console.log("OCRrRRRR")
-  try {
-    const {
-      data: { text },
-    } = await Tesseract.recognize(imagePath, "eng");
-    console.log("return text", imagePath)
-    return text; // Returns the extracted text from the image
-  } catch (error) {
-    console.error("Error during OCR:", error);
-    return ""; // Return empty string on error
-  }
-});
+// Function to get the path to the public folder
+// function getPublicFolderPath() {
+//   // Check if the app is in development or production mode
+//   if (process.env.NODE_ENV === 'development') {
+//       // Path when in development (assuming public folder is at project root)
+//       return path.join(__dirname, '..', 'public');
+//   } else {
+//       // Path when in production (assuming public folder is in the resources directory of the packaged app)
+//       return path.join(process.resourcesPath, 'public');
+//   }
+// }
