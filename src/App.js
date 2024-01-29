@@ -14,12 +14,12 @@ import Logo from "./components/Logo";
 function App() {
   return (
     <ChakraProvider>
-      <Dash />
-      {/* <Router>
+      <Router>
         <Routes>
-          <Route path="/" element={<Main />} />
+          <Route path="/" element={<Dash />} />
+          <Route path="/Main" element={<Main />} />
         </Routes>
-      </Router> */}
+      </Router>
     </ChakraProvider>
   );
 }

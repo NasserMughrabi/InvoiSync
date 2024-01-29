@@ -1,49 +1,32 @@
 import React from "react";
 import {
-  AspectRatio,
   Box,
-  BoxProps,
-  Container,
-  forwardRef,
-  Heading,
-  Input,
-  Stack,
   HStack,
-  Text,
-  Progress,
-  Flex,
-  CircularProgress,
-  CircularProgressLabel,
   Button,
-  VStack,
-  List,
-  ListItem,
-  ListIcon,
-  Card,
-  CardBody,
-  Divider,
-  CardFooter,
-  ButtonGroup,
-  useDisclosure,
   IconButton,
-  Spinner,
   Grid,
   GridItem,
   Image,
-  FormControl,
-  FormLabel,
 } from "@chakra-ui/react";
-import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
-import { useState } from "react";
+import { FaChevronRight, FaChevronLeft, FaPlus, FaMinus } from "react-icons/fa";
+import { GrPowerReset } from "react-icons/gr";
+import { useState, useRef } from "react";
 import colors from "../../colors";
 import Files from "./Files";
 import Data from "./Data";
 
-const Viewer = ({ extractedFiles, extractedText, setStep }) => {
+const Viewer = ({
+  extractedFiles,
+  extractedText,
+  setCurrentStep,
+  progress,
+}) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [currentPage, setCurrentPage] = useState(0);
   const pdfPages = extractedFiles[0].pdfPages;
   const pdfText = extractedFiles[0].pdfText;
+  const [zoomLevel, setZoomLevel] = useState(1); // Starting with 1 as the default zoom level
+  const pdfContainerRef = useRef(null);
 
   const filesOrData = () => {
     if (selectedFile) {
@@ -59,6 +42,7 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
         <Files
           extractedFiles={extractedFiles}
           setSelectedFile={setSelectedFile}
+          progress={progress}
         />
       );
     }
@@ -66,8 +50,8 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
 
   return (
     <Grid
-      height={"100vh"}
-      bg={colors.violet}
+      height={"89.66vh"}
+      // bg={colors.darkBlue}
       templateRows="repeat(12, 1fr)"
       templateColumns="repeat(12, 1fr)"
       // gap={4}
@@ -75,8 +59,10 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
       <GridItem
         rowSpan={12}
         colSpan={selectedFile ? 4 : 4}
-        bg={"white"}
+        // bg={colors.blue500}
         position={"relative"}
+        borderRight={"1px"}
+        borderColor={colors.darkBlue}
       >
         {filesOrData()}
         <Button
@@ -88,7 +74,7 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
           bottom={0}
           left={0}
           m={4}
-          onClick={() => setStep((step) => step - 1)}
+          onClick={() => setCurrentStep((currentStep) => currentStep - 1)}
         >
           Back
         </Button>
@@ -118,11 +104,19 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
             border="2px solid #ccc"
             borderRadius="md"
             boxShadow="md"
-            h={"100vh"}
+            h={"100%"}
             bg={"gray.600"}
+            ref={pdfContainerRef}
+            transform={`scale(${zoomLevel})`}
+            transformOrigin="top left"
+            overflow="auto"
           >
             <Image
-              src={selectedFile ? selectedFile.pdfPages[currentPage] : pdfPages[currentPage]}
+              src={
+                selectedFile
+                  ? selectedFile.pdfPages[currentPage]
+                  : pdfPages[currentPage]
+              }
               alt={`Page ${currentPage + 1}`}
               fit="contain"
               align="center"
@@ -154,6 +148,33 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
             }
           />
         </HStack>
+        <HStack position={"absolute"} top={"11vh"} right={"30vw"}>
+          <IconButton
+            onClick={() => {
+              setZoomLevel((prevZoomLevel) => Math.min(prevZoomLevel + 0.1, 2));
+            }}
+            icon={<FaPlus />}
+            size={"sm"}
+            // bg={"transparent"}
+          />
+          <IconButton
+            onClick={() => setZoomLevel(1)}
+            icon={<GrPowerReset />}
+            size={"sm"}
+            // bg={"transparent"}
+          />
+          <IconButton
+            onClick={() => {
+              setZoomLevel((prevZoomLevel) =>
+                Math.max(prevZoomLevel - 0.1, 0.5)
+              );
+            }}
+            icon={<FaMinus />}
+            size={"sm"}
+            // bg={"transparent"}
+          />
+        </HStack>
+
         {/* <Button
           variant={"outline"}
           colorScheme="gray"
@@ -163,7 +184,7 @@ const Viewer = ({ extractedFiles, extractedText, setStep }) => {
           bottom={0}
           right={0}
           m={4}
-          // onClick={() => setStep((step) => step + 1)}
+          // onClick={() => setCurrentStep((currentStep) => currentStep + 1)}
         >
           Next
         </Button> */}

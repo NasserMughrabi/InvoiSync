@@ -1,55 +1,29 @@
 import React from "react";
-import {
-  AspectRatio,
-  Box,
-  BoxProps,
-  Container,
-  forwardRef,
-  Heading,
-  Input,
-  Stack,
-  HStack,
-  Text,
-  Progress,
-  Flex,
-  CircularProgress,
-  CircularProgressLabel,
-  Button,
-  VStack,
-  List,
-  ListItem,
-  ListIcon,
-  Card,
-  CardBody,
-  Divider,
-  CardFooter,
-  ButtonGroup,
-  useDisclosure,
-  IconButton,
-  Spinner,
-  Grid,
-  Center,
-  Avatar,
-} from "@chakra-ui/react";
-import { FaSearch, FaBell, FaUserCircle } from "react-icons/fa";
+import { Box, HStack, Avatar } from "@chakra-ui/react";
+// import { FaSearch, FaBell, FaUserCircle } from "react-icons/fa";
 import Logo from "../Logo";
-import { SearchBar } from "./SearchBar";
+// import { SearchBar } from "./SearchBar";
 
 function Navbar() {
-  //   const bgColor = useColorModeValue("gray.100", "gray.900");
-  //   const primaryColor = useColorModeValue("#244f66", "#56d6ea");
+  const navItems = [
+    "Dashboard",
+    "Accounts",
+    "History",
+    "Access",
+    "Help/Support",
+  ];
 
   return (
     <HStack
       width={"100%"}
       height={"7vh"}
-      // bg={"#395f74"}
-      // borderColor={"#395f74"}
+      borderColor={"#395f74"}
       bg={"#2e5469"}
-      borderColor={"#2e5469"}
-      borderBottomColor={"gray.700"}
+      // bg={"blue.500"}
+      // borderColor={"blue.500"}
+      borderBottomColor={"gray.300"}
       borderWidth="2px"
-      shadow="md"
+      shadow="lg"
       role="group"
       transition="all 150ms ease-in-out"
       cursor={"pointer"}
@@ -59,24 +33,22 @@ function Navbar() {
     >
       <HStack height={"100%"} spacing={20}>
         <Logo />
-        <HStack spacing={4} height={"100%"}>
-          <Box fontWeight={"bold"}>Histroy</Box>
-          <Divider
-            height={"85%"}
-            orientation="vertical"
-            borderColor={"gray.100"}
-          />
-          <Box fontWeight={"bold"}>Accounts</Box>
-          <Divider
-            height={"85%"}
-            orientation="vertical"
-            borderColor={"gray.100"}
-          />
-          <Box fontWeight={"bold"}>Access</Box>
+        <HStack spacing={6} height={"100%"}>
+          {navItems.map((item, index) => {
+            return (
+              <Box
+                p={2}
+                fontWeight={"bold"}
+                _hover={{ bg: "blue.500", borderRadius: "15px" }}
+              >
+                {item}
+              </Box>
+            );
+          })}
         </HStack>
       </HStack>
       <HStack spacing={6}>
-        <SearchBar />
+        {/* <SearchBar /> */}
         <Avatar
           name="Dan Abrahmov"
           src="https://bit.ly/dan-abramov"

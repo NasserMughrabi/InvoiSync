@@ -28,10 +28,13 @@ import {
   IconButton,
   Spinner,
   Grid,
+  Select,
+  Icon,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdCheckCircle } from "react-icons/md";
 import { IoTrashOutline } from "react-icons/io5";
+import { FaPlus } from "react-icons/fa";
 import { motion, useAnimation } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
 import colors from "../../colors";
@@ -137,7 +140,8 @@ const PreviewImage = forwardRef((props, ref) => {
   );
 });
 
-const Upload = ({ setUploadedFiles, setStep }) => {
+const Upload = ({ setUploadedFiles, setCurrentStep }) => {
+  const navigate = useNavigate();
   const controls = useAnimation();
   const startAnimation = () => controls.start("hover");
   const stopAnimation = () => controls.stop();
@@ -153,24 +157,26 @@ const Upload = ({ setUploadedFiles, setStep }) => {
     } catch (error) {
       alert(error);
     }
-    setStep((step) => step + 1);
+    setCurrentStep((currentStep) => currentStep + 1);
   };
 
   return (
-    <Flex
-      height={"100vh"}
-      justifyContent={"center"}
-      alignItems={"center"}
-      bg={colors.violet}
+    <VStack
+      height={"89vh"}
+      // justifyContent={"center"}
+      // alignItems={"center"}
+      // bg={"green"}
+      py={10}
+      spacing={10}
     >
-      <HStack>
+      <VStack alignItems={"center"} height={"100%"} spacing={10}>
+        <VStack spacing={3} width={"100%"}>
+          <Button leftIcon={<FaPlus />}>Add New Vendor</Button>
+        </VStack>
         <Container
-          // my="12"
-          // display={"flex"}
-          // display={isOpen ? "none" : "flex"}
-          justifyContent={"center"}
-          alignItems={"center"}
-          bg={"white"}
+          // justifyContent={"center"}
+          // alignItems={"center"}
+          bg={"gray.100"}
           p={4}
           borderRadius={8}
         >
@@ -254,8 +260,35 @@ const Upload = ({ setUploadedFiles, setStep }) => {
             </Box>
           </AspectRatio>
         </Container>
-      </HStack>
-    </Flex>
+      </VStack>
+      <Button
+        // variant={"outline"}
+        colorScheme="blue"
+        color={"white"}
+        w={"8rem"}
+        position={"absolute"}
+        bottom={0}
+        right={0}
+        m={4}
+        onClick={() => setCurrentStep((currentStep) => currentStep + 1)}
+      >
+        Next
+      </Button>
+      <Button
+        bgColor={"gray.300"}
+        _hover={{ bgColor: "gray.200" }}
+        color={colors.violet}
+        w={"8rem"}
+        position={"absolute"}
+        bottom={0}
+        left={0}
+        m={4}
+        // onClick={() => setCurrentStep((currentStep) => currentStep - 1)}
+        onClick={() => navigate("/")}
+      >
+        Dashboard
+      </Button>
+    </VStack>
   );
 };
 

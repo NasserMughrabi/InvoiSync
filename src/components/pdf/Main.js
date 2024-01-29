@@ -4,27 +4,37 @@ import Upload from "./Upload";
 import Extract from "./Extract";
 import Viewer from "./Viewer";
 import { useState } from "react";
+import Navbar from "../dashboard/Navbar";
+import StepsNav from "./StepsNav";
 
 const Main = () => {
-  const [step, setStep] = useState(0);
+  const [currentStep, setCurrentStep] = useState(0);
   const [uploadedFiles, setUploadedFiles] = useState([]);
   const [pdfPages, setPdfPages] = useState([]);
   const [extractedText, setExtractedText] = useState("");
   const [extractedFiles, setExtractedFiles] = useState([]);
+  const [progress, setProgress] = useState(uploadedFiles.map(() => 0));
 
   const renderStep = () => {
-    switch (step) {
+    switch (currentStep) {
       case 0:
-        return <Upload setUploadedFiles={setUploadedFiles} setStep={setStep} />;
+        return (
+          <Upload
+            setUploadedFiles={setUploadedFiles}
+            setCurrentStep={setCurrentStep}
+          />
+        );
       case 1:
         return (
           <Extract
             uploadedFiles={uploadedFiles}
             setUploadedFiles={setUploadedFiles}
-            setStep={setStep}
+            setCurrentStep={setCurrentStep}
             setExtractedFiles={setExtractedFiles}
             extractedFiles={extractedFiles}
             setExtractedText={setExtractedText}
+            setProgress={setProgress}
+            progress={progress}
           />
         );
       case 2:
@@ -32,7 +42,8 @@ const Main = () => {
           <Viewer
             extractedFiles={extractedFiles}
             extractedText={extractedText}
-            setStep={setStep}
+            setCurrentStep={setCurrentStep}
+            progress={progress}
           />
         );
       default:
@@ -40,16 +51,13 @@ const Main = () => {
     }
   };
 
-  return <Box>{renderStep()}</Box>;
-  //   return (
-  //     <Box>
-  //       <Viewer
-  //         pdfPages={pdfPages}
-  //         extractedText={extractedText}
-  //         setStep={setStep}
-  //       />
-  //     </Box>
-  //   );
+  return (
+    <Box>
+      {/* <Navbar /> */}
+      <StepsNav setCurrentStep={setCurrentStep} currentStep={currentStep} />
+      <Box>{renderStep()}</Box>
+    </Box>
+  );
 };
 
 export default Main;

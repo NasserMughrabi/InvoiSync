@@ -36,8 +36,13 @@ import {
   Icon,
 } from "@chakra-ui/react";
 import { MdCheckCircle, MdIncompleteCircle, MdCancel } from "react-icons/md";
+import { useState } from "react";
 
 const Data = ({ selectedFile, setSelectedFile, pdfText }) => {
+  // const [invoiceNum, setInvoiceNum] = useState(extractedData.invoice);
+  // const [invoiceDate, setInvoiceDate] = useState(extractedData.date);
+  // const [invoiceBalance, setInvoiceBalance] = useState(extractedData.balance);
+
   return (
     <VStack p={4} spacing={4}>
       <Button
@@ -70,28 +75,38 @@ const Data = ({ selectedFile, setSelectedFile, pdfText }) => {
           <Tooltip label={"Reviewed"}>
             <HStack>
               <Icon as={MdCheckCircle} color={"green.600"} />
-              <Text overflow={"hidden"}>{selectedFile.pdfName.split("/")[1]}</Text>
+              <Text overflow={"hidden"}>
+                {selectedFile.pdfName.split("/")[1]}
+              </Text>
             </HStack>
           </Tooltip>
         </Box>
       </Box>
-      <Text fontWeight={"bold"} fontSize={"1.2rem"}>
-        Category 1
-      </Text>
       <HStack width={"100%"}>
         <FormControl>
-          <FormLabel>Vendor</FormLabel>
-          <Input placeholder="First name" />
+          <FormLabel>Invoice Number</FormLabel>
+          <Input
+            // value={invoiceNum}
+            // onChange={(e) => setInvoiceNum(e.target.value)}
+            value={selectedFile.extractedData.invoice}
+            // onChange={(e) => setInvoiceNum(e.target.value)}
+          />
         </FormControl>
       </HStack>
       <HStack width={"100%"}>
         <FormControl>
           <FormLabel>Invoice Date</FormLabel>
-          <Input placeholder="First name" />
+          <Input
+            value={selectedFile.extractedData.date}
+            // onChange={(e) => setInvoiceDate(e.target.value)}
+          />
         </FormControl>
         <FormControl>
-          <FormLabel>Recieved Date</FormLabel>
-          <Input placeholder="First name" />
+          <FormLabel>Balance</FormLabel>
+          <Input
+            value={selectedFile.extractedData.balance}
+            // onChange={(e) => setInvoiceBalance(e.target.value)}
+          />
         </FormControl>
       </HStack>
     </VStack>

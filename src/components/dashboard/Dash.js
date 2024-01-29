@@ -1,46 +1,14 @@
 import React from "react";
-import {
-  AspectRatio,
-  Box,
-  BoxProps,
-  Container,
-  forwardRef,
-  Heading,
-  Input,
-  Stack,
-  HStack,
-  Text,
-  Progress,
-  Flex,
-  CircularProgress,
-  CircularProgressLabel,
-  Button,
-  VStack,
-  List,
-  ListItem,
-  ListIcon,
-  Card,
-  CardBody,
-  Divider,
-  CardFooter,
-  ButtonGroup,
-  useDisclosure,
-  IconButton,
-  Spinner,
-  Grid,
-  GridItem,
-  Center,
-} from "@chakra-ui/react";
-import colors from "../../colors";
+import { Box, HStack } from "@chakra-ui/react";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 import Cards from "./Cards";
 
 const Dash = () => {
   return (
-    <Box bg={"#244f66"}>
+    <Box bg={"white"}>
       <Navbar />
-      <HStack>
+      <HStack alignItems={"flex-start"}>
         <Sidebar />
         <Cards />
       </HStack>

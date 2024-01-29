@@ -37,18 +37,49 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { MdCheckCircle, MdIncompleteCircle, MdCancel } from "react-icons/md";
+import colors from "../../colors";
 
-const Files = ({ extractedFiles, setSelectedFile }) => {
+const Files = ({ extractedFiles, setSelectedFile, extracting, progress }) => {
+  const iconChoice = (extractedFile) => {
+    if (extractedFile.status === "approved") {
+      return MdCheckCircle;
+    } else if (extractedFile.status === "inprogress") {
+      return MdIncompleteCircle;
+    } else {
+      return MdCancel;
+    }
+  };
+
+  const iconColor = (extractedFile) => {
+    if (extractedFile.status === "approved") {
+      return "green.600";
+    } else if (extractedFile.status === "inprogress") {
+      return "orange.600";
+    } else {
+      return "red.600";
+    }
+  };
+
+  const iconTip = (extractedFile) => {
+    if (extractedFile.status === "approved") {
+      return "Await review";
+    } else if (extractedFile.status === "inprogress") {
+      return "Incomplete review";
+    } else {
+      return "Reviewed";
+    }
+  };
+
   return (
     <Box height="500px" overflowY="auto">
-      <VStack bg={"white"} align="stretch" spacing={3}>
+      <VStack align="stretch" spacing={3}>
         <Text
           textAlign={"center"}
           fontSize={"1.3rem"}
           fontWeight={"bold"}
           p={2}
         >
-          Uploaded Files
+          Files
         </Text>
         {extractedFiles.map((file, index) => {
           return (
@@ -61,26 +92,28 @@ const Files = ({ extractedFiles, setSelectedFile }) => {
                 _hover={{ bg: "blue.100", cursor: "pointer" }}
                 onClick={() => setSelectedFile(file)}
               >
-                <Tooltip label={"Click to review"}>
+                <HStack justifyContent={"space-between"}>
                   <HStack>
-                    <Icon as={MdCheckCircle} color={"green.600"} />
-                    <Text overflow={"hidden"}>{file.pdfName.split("/")[1]}</Text>
+                    <Tooltip label={iconTip(file)}>
+                      <Stack justifyContent={"center"}>
+                        <Icon as={iconChoice(file)} color={iconColor(file)} />
+                      </Stack>
+                    </Tooltip>
+                    <Text overflow={"hidden"}>
+                      {file.pdfName.split("/")[1]}
+                    </Text>
                   </HStack>
-                </Tooltip>
-
-                {/* <Tooltip label={"In Progress"}>
-                  <HStack>
-                    <Icon as={MdIncompleteCircle} color={"orange.600"} />
-                    <Text>{file.pdfName.split("/")[1]}</Text>
-                  </HStack>
-                </Tooltip>
-
-                <Tooltip label={"Not Started"}>
-                  <HStack>
-                    <Icon as={MdCancel} color={"red.600"} />
-                    <Text>{file.pdfName.split("/")[1]}</Text>
-                  </HStack>
-                </Tooltip> */}
+                  {progress[index] < 100 ? (
+                    <CircularProgress
+                      value={progress[index]}
+                      color={colors.blue500}
+                      thickness="12px"
+                      size={"30px"}
+                    />
+                  ) : (
+                    <Button variant={"outline"}>Review</Button>
+                  )}
+                </HStack>
               </Box>
             </Box>
           );

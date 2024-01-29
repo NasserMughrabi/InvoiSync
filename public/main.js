@@ -63,14 +63,23 @@ ipcMain.handle("upload-file", (event, filePath) => {
 ipcMain.handle("adobe-extract", async (event, fileName) => {
   // Adobe Extract API
   const data = await adobeExtract(fileName);
-  console.log(data);
+  // console.log(data);
+  // return data;
 
-  // const date = findValNextRow(data, "date invoiced");
-  // const invoice = findValNextRow(data, "invoice number");
-  // const balance = findBalance(data, "");
-  // console.log("Date: ", date);
-  // console.log("Invoice Number: ", invoice);
-  // console.log("Due Balance: ", balance);
+  const ParsedData = {};
+
+  const date = findValNextRow(data, "date");
+  const invoice = findValNextRow(data, "invoice");
+  const balance = findBalance(data, "balance");
+
+  ParsedData.date = date;
+  ParsedData.invoice = invoice;
+  ParsedData.balance = balance;
+
+  console.log("Date: ", date);
+  console.log("Invoice Number: ", invoice);
+  console.log("Due Balance: ", balance);
+  return ParsedData;
 });
 
 //   elements: [
