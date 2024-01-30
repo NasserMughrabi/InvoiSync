@@ -14,6 +14,7 @@ import { useState, useRef } from "react";
 import colors from "../../colors";
 import Files from "./Files";
 import Data from "./Data";
+import AlertDialogComp from "../main/AlertDialogComp";
 
 const Viewer = ({
   extractedFiles,
@@ -78,6 +79,8 @@ const Viewer = ({
         >
           Back
         </Button>
+
+        
       </GridItem>
       <GridItem
         rowSpan={12}
@@ -174,20 +177,6 @@ const Viewer = ({
             // bg={"transparent"}
           />
         </HStack>
-
-        {/* <Button
-          variant={"outline"}
-          colorScheme="gray"
-          color={"white"}
-          w={"8rem"}
-          position={"absolute"}
-          bottom={0}
-          right={0}
-          m={4}
-          // onClick={() => setCurrentStep((currentStep) => currentStep + 1)}
-        >
-          Next
-        </Button> */}
       </GridItem>
     </Grid>
   );

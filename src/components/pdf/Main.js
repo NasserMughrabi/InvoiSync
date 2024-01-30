@@ -1,11 +1,12 @@
 import React from "react";
 import { Box } from "@chakra-ui/react";
-import Upload from "./Upload";
+import Upload from ".//Upload";
 import Extract from "./Extract";
 import Viewer from "./Viewer";
 import { useState } from "react";
 import Navbar from "../dashboard/Navbar";
 import StepsNav from "./StepsNav";
+import ProgressBar from "./ProgressBar";
 
 const Main = () => {
   const [currentStep, setCurrentStep] = useState(0);
@@ -55,6 +56,7 @@ const Main = () => {
     <Box>
       {/* <Navbar /> */}
       <StepsNav setCurrentStep={setCurrentStep} currentStep={currentStep} />
+      {/* <ProgressBar currentStep={currentStep}  /> */}
       <Box>{renderStep()}</Box>
     </Box>
   );

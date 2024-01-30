@@ -37,6 +37,7 @@ import {
 } from "@chakra-ui/react";
 import { MdCheckCircle, MdIncompleteCircle, MdCancel } from "react-icons/md";
 import { useState } from "react";
+import AlertDialogComp from "../main/AlertDialogComp";
 
 const Data = ({ selectedFile, setSelectedFile, pdfText }) => {
   // const [invoiceNum, setInvoiceNum] = useState(extractedData.invoice);
@@ -109,6 +110,24 @@ const Data = ({ selectedFile, setSelectedFile, pdfText }) => {
           />
         </FormControl>
       </HStack>
+      <Button
+          colorScheme="blue"
+          color={"white"}
+          w={"8rem"}
+          position={"absolute"}
+          bottom={0}
+          right={0}
+          m={4}
+          // onClick={() => setCurrentStep((currentStep) => currentStep + 1)}
+        >
+          <AlertDialogComp
+            btnTitle={"Next"}
+            header={"Mark Complete"}
+            body={"Are you sure the extracted data match?"}
+            footerBtnTitle={"Confirm"}
+            selectedFile={selectedFile}
+          />
+        </Button>
     </VStack>
   );
 };

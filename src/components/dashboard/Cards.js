@@ -32,9 +32,12 @@ const Cards = () => {
 const CardItem = ({ card }) => {
   const [showAllvendors, setShowAllvendors] = useState(false);
 
-  const toggleShowAll = () => {
+  const toggleShowAll = (e) => {
+    e.stopPropagation(); // Prevent the click event from propagating to the parent link
+    e.preventDefault();  // Prevent the default link navigation behavior
     setShowAllvendors(!showAllvendors);
   };
+
   return (
     <AspectRatio
       width="64"

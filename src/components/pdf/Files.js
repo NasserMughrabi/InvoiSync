@@ -62,11 +62,11 @@ const Files = ({ extractedFiles, setSelectedFile, extracting, progress }) => {
 
   const iconTip = (extractedFile) => {
     if (extractedFile.status === "approved") {
-      return "Await review";
+      return "Reviewed";
     } else if (extractedFile.status === "inprogress") {
       return "Incomplete review";
     } else {
-      return "Reviewed";
+      return "Await review";
     }
   };
 

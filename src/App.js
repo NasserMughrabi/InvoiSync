@@ -5,11 +5,8 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Upload from "./components/pdf/Upload";
-import Viewer from "./components/pdf/Viewer";
 import Main from "./components/pdf/Main";
 import Dash from "./components/dashboard/Dash";
-import Logo from "./components/Logo";
 
 function App() {
   return (

@@ -30,7 +30,9 @@ import {
   Grid,
   Wrap,
   WrapItem,
+  Icon,
 } from "@chakra-ui/react";
+import { FaFileInvoiceDollar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MdCheckCircle } from "react-icons/md";
 import { IoTrashOutline } from "react-icons/io5";
@@ -151,80 +153,64 @@ const Extract = ({
   };
 
   return (
-    <Flex height={"89.66vh"} flexWrap={"wrap"} justifyContent={"center"}>
-      <Flex
-        //   display={isOpen ? "block" : "none"}
-        borderRadius={8}
-        p={4}
-        mt={2}
-        ml={10}
-      >
-        {/* maxW="sm" */}
-        <Card>
-          <CardBody>
-            <Stack mt="6" spacing="3">
-              <Heading size="md">Files</Heading>
-              <List spacing={3} mt={2}>
-                {uploadedFiles &&
-                  uploadedFiles.map((file, index) => {
-                    return (
-                      <ListItem key={index} width={"100%"}>
-                        <HStack justifyContent={"space-between"}>
-                          <Box>
-                            <ListIcon
-                              as={MdCheckCircle}
-                              color={colors.blue500}
-                            />
-                            {file.name.slice(0, 24)}
-                          </Box>
-                          {extracting ? (
-                            <CircularProgress
-                              value={progress[index]}
-                              color={colors.blue500}
-                              thickness="12px"
-                              size={"30px"}
-                            />
-                          ) : (
-                            <IconButton
-                              bg={"white"}
-                              ml={2}
-                              aria-label="Remove file"
-                              icon={<IoTrashOutline color={"red"} />}
-                              //   onClick={() => handleRemoveService(index)}
-                            />
-                          )}
-                        </HStack>
-                      </ListItem>
-                    );
-                  })}
-              </List>
-            </Stack>
-          </CardBody>
-          {/* <Divider /> */}
-          <CardFooter>
-            <HStack>
-              <Button
-                bgColor={colors.blue500}
-                _hover={{ bgColor: colors.violetHover }}
-                color={"white"}
-                w={"8rem"}
-                isDisabled={extractedFiles.length > 0}
-                onClick={handleExtract}
+    <VStack height={"89.66vh"} pt={6}>
+      <Heading size="md">Files</Heading>
+      <Flex spacing={3} mt={2} flexWrap={"wrap"}>
+        {uploadedFiles &&
+          uploadedFiles.map((file, index) => {
+            return (
+              <HStack
+                key={index}
+                m={2}
+                justifyContent={"space-between"}
+                width={"17rem"}
               >
-                Extract data
-              </Button>
-              <Button
-                variant={"outline"}
-                colorScheme="red"
-                w={"8rem"}
-                onClick={handleCancelExtract}
-              >
-                Cancel
-              </Button>
-            </HStack>
-          </CardFooter>
-        </Card>
+                <HStack>
+                  <Icon as={FaFileInvoiceDollar} color={colors.blue500} />
+                  <Text>{file.name.slice(0, 24)}</Text>
+                </HStack>
+                {extracting ? (
+                  <CircularProgress
+                    value={progress[index]}
+                    color={colors.blue500}
+                    thickness="12px"
+                    size={"30px"}
+                  />
+                ) : (
+                  <IconButton
+                    bg={"white"}
+                    ml={2}
+                    aria-label="Remove file"
+                    icon={<IoTrashOutline color={"red"} />}
+                    //   onClick={() => handleRemoveService(index)}
+                  />
+                )}
+              </HStack>
+            );
+          })}
       </Flex>
+
+      <HStack>
+        <Button
+          bgColor={colors.blue500}
+          _hover={{ bgColor: colors.violetHover }}
+          color={"white"}
+          w={"8rem"}
+          isDisabled={extractedFiles.length > 0}
+          onClick={handleExtract}
+        >
+          Extract data
+        </Button>
+        <Button
+          variant={"outline"}
+          colorScheme="red"
+          w={"8rem"}
+          onClick={handleCancelExtract}
+        >
+          Cancel
+        </Button>
+      </HStack>
+
       {extractedFiles.length > 0 && (
         <Button
           variant={"outline"}
@@ -241,7 +227,7 @@ const Extract = ({
           Next
         </Button>
       )}
-    </Flex>
+    </VStack>
   );
 };
 

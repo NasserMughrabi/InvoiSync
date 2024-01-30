@@ -2,30 +2,39 @@ import React, { useState } from "react";
 import { Box, HStack, Button, useColorModeValue } from "@chakra-ui/react";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { GrNext } from "react-icons/gr";
+import { FaCheck } from "react-icons/fa";
 
-const StepsNav = ({ setCurrentStep, currentStep}) => {
-  const steps = ["Upload", "Extract", "Approve", "Payment"];
+const StepsNav = ({ setCurrentStep, currentStep }) => {
+  const steps = ["Upload", "Extract", "Review", "Code", "Approve", "Payment"];
   //   const [currentStep, setCurrentStep] = useState(0);
-  const activeBg = useColorModeValue("blue.500", "blue.300");
+  const activeCompleteBg = useColorModeValue("blue.500", "blue.300");
   const inactiveBg = useColorModeValue("transparent", "trasparent");
-  const activeColor = useColorModeValue("white", "gray.200");
+  const activeCompleteColor = useColorModeValue("white", "gray.200");
 
   return (
     <Box p={5} overflow="auto">
       <HStack spacing={4} justifyContent="center">
         {steps.map((step, index) => (
           <Button
-            rightIcon={<GrNext />}
+            rightIcon={index < currentStep ? <FaCheck /> : <GrNext />}
             key={index}
             // bg={"transparent"}
             border={"1px"}
             borderColor={"gray.200"}
             borderRadius={"24px"}
-            bg={currentStep === index ? activeBg : inactiveBg}
-            color={currentStep === index ? activeColor : "black"}
+            bg={
+              index < currentStep || index === currentStep
+                ? activeCompleteBg
+                : inactiveBg
+            }
+            color={
+              currentStep === index || index < currentStep
+                ? activeCompleteColor
+                : "black"
+            }
             onClick={() => setCurrentStep(index)}
             _hover={{
-              bg: currentStep === index ? activeBg : "gray.300",
+              bg: currentStep === index ? activeCompleteBg : "gray.300",
             }}
           >
             {step}
