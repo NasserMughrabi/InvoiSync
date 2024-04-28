@@ -37,7 +37,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import { FaPlus } from "react-icons/fa";
 import { motion, useAnimation } from "framer-motion";
 import { useState, useRef, useEffect } from "react";
-import colors from "../../colors";
+import colors from "../../../colors";
 import Tesseract from "tesseract.js";
 // import * as pdfjsLib from "pdfjs-dist/build/pdf";
 import { pdfjs, Document, Page } from "react-pdf";
@@ -261,19 +261,6 @@ const Upload = ({ setUploadedFiles, setCurrentStep }) => {
           </AspectRatio>
         </Container>
       </VStack>
-      <Button
-        // variant={"outline"}
-        colorScheme="blue"
-        color={"white"}
-        w={"8rem"}
-        position={"absolute"}
-        bottom={0}
-        right={0}
-        m={4}
-        onClick={() => setCurrentStep((currentStep) => currentStep + 1)}
-      >
-        Next
-      </Button>
       <Button
         bgColor={"gray.300"}
         _hover={{ bgColor: "gray.200" }}

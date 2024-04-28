@@ -16,7 +16,7 @@ const StepsNav = ({ setCurrentStep, currentStep }) => {
       <HStack spacing={4} justifyContent="center">
         {steps.map((step, index) => (
           <Button
-            rightIcon={index < currentStep ? <FaCheck /> : <GrNext />}
+            rightIcon={index === 5 ? "" : index < currentStep ? <FaCheck /> : <GrNext />}
             key={index}
             // bg={"transparent"}
             border={"1px"}
@@ -32,10 +32,10 @@ const StepsNav = ({ setCurrentStep, currentStep }) => {
                 ? activeCompleteColor
                 : "black"
             }
-            onClick={() => setCurrentStep(index)}
             _hover={{
-              bg: currentStep === index ? activeCompleteBg : "gray.300",
+              bg: currentStep === index || index < currentStep ? activeCompleteBg : "gray.300",
             }}
+            onClick={() => setCurrentStep(index)}
           >
             {step}
           </Button>

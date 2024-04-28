@@ -36,7 +36,7 @@ import { FaFileInvoiceDollar } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { MdCheckCircle } from "react-icons/md";
 import { IoTrashOutline } from "react-icons/io5";
-import colors from "../../colors";
+import colors from "../../../colors";
 import { useState, useRef, useEffect } from "react";
 import Tesseract from "tesseract.js";
 import { pdfjs, Document, Page } from "react-pdf";
@@ -83,18 +83,18 @@ const Extract = ({
       const extractedData = await window.electronAPI.adobeExtract(
         uploadedFiles[i].name
       );
+      // const extractedData = "";
       // setExtractedData((extractedData) => [...extractedData, data])
 
       const pdfUrl = `uploads/${uploadedFile.name}`; // Replace with PDF file path or URL
       const pages = [];
 
-      // each pdf contains it's own pages and extracted text, we then add it to extractedFiles
       const pdfObj = {
         pdfName: pdfUrl,
         pdfPages: [],
-        pdfText: "",
         status: "not started",
         extractedData: extractedData,
+        index: i,
       };
 
       try {
@@ -116,7 +116,6 @@ const Extract = ({
           pages.push(canvas.toDataURL());
         }
 
-        // setPdfPages(pages);
         pdfObj.pdfPages = pages;
       } catch (error) {
         console.error("Error loading PDF: ", error);

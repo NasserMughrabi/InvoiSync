@@ -5,7 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import Main from "./components/pdf/Main";
+import Main from "./components/workflow/main/Main";
 import Dash from "./components/dashboard/Dash";
 
 function App() {

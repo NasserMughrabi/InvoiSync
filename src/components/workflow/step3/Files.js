@@ -37,9 +37,10 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import { MdCheckCircle, MdIncompleteCircle, MdCancel } from "react-icons/md";
-import colors from "../../colors";
+import colors from "../../../colors";
+import { FaChevronRight, FaChevronLeft } from "react-icons/fa";
 
-const Files = ({ extractedFiles, setSelectedFile, extracting, progress }) => {
+const Files = ({ extractedFiles, setSelectedFile, extracting, progress, setCurrentStep }) => {
   const iconChoice = (extractedFile) => {
     if (extractedFile.status === "approved") {
       return MdCheckCircle;
@@ -71,7 +72,7 @@ const Files = ({ extractedFiles, setSelectedFile, extracting, progress }) => {
   };
 
   return (
-    <Box height="500px" overflowY="auto">
+    <Box height="90%" overflowY="auto">
       <VStack align="stretch" spacing={3}>
         <Text
           textAlign={"center"}
@@ -119,6 +120,20 @@ const Files = ({ extractedFiles, setSelectedFile, extracting, progress }) => {
           );
         })}
       </VStack>
+      <Button
+        colorScheme={"blue"}
+        // _hover={{ bgColor: "gray.200" }}
+        color={"white"}
+        // w={"8rem"}
+        position={"absolute"}
+        bottom={0}
+        right={0}
+        m={4}
+        rightIcon={<FaChevronRight />}
+        onClick={() => setCurrentStep((currentStep) => currentStep + 1)}
+      >
+        Code
+      </Button>
     </Box>
   );
 };

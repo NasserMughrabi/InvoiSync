@@ -37,9 +37,9 @@ import {
 } from "@chakra-ui/react";
 import { MdCheckCircle, MdIncompleteCircle, MdCancel } from "react-icons/md";
 import { useState } from "react";
-import AlertDialogComp from "../main/AlertDialogComp";
+import AlertDialogComp from "./AlertDialogComp";
 
-const Data = ({ selectedFile, setSelectedFile, pdfText }) => {
+const Data = ({ selectedFile, setSelectedFile, extractedFiles }) => {
   // const [invoiceNum, setInvoiceNum] = useState(extractedData.invoice);
   // const [invoiceDate, setInvoiceDate] = useState(extractedData.date);
   // const [invoiceBalance, setInvoiceBalance] = useState(extractedData.balance);
@@ -63,7 +63,6 @@ const Data = ({ selectedFile, setSelectedFile, pdfText }) => {
       >
         ← All files
       </Button>
-      <Text>{pdfText}</Text>
       <Box width={"100%"} alignItems={"center"} pt={5}>
         <Box
           p={3}
@@ -110,24 +109,26 @@ const Data = ({ selectedFile, setSelectedFile, pdfText }) => {
           />
         </FormControl>
       </HStack>
-      <Button
-          colorScheme="blue"
-          color={"white"}
-          w={"8rem"}
-          position={"absolute"}
-          bottom={0}
-          right={0}
-          m={4}
-          // onClick={() => setCurrentStep((currentStep) => currentStep + 1)}
-        >
-          <AlertDialogComp
-            btnTitle={"Next"}
-            header={"Mark Complete"}
-            body={"Are you sure the extracted data match?"}
-            footerBtnTitle={"Confirm"}
-            selectedFile={selectedFile}
-          />
-        </Button>
+      {/* <Button
+        colorScheme="blue"
+        color={"white"}
+        w={"8rem"}
+        position={"absolute"}
+        bottom={0}
+        right={0}
+        m={4}
+        // onClick={() => setCurrentStep((currentStep) => currentStep + 1)}
+      > */}
+        <AlertDialogComp
+          btnTitle={"Next"}
+          header={"Mark Complete"}
+          body={"Are you sure the extracted data match?"}
+          footerBtnTitle={"Save and continue"}
+          selectedFile={selectedFile}
+          setSelectedFile={setSelectedFile}
+          extractedFiles={extractedFiles}
+        />
+      {/* </Button> */}
     </VStack>
   );
 };
